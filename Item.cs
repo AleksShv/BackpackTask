@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BackpackTask
+﻿namespace BackpackTask
 {
     public class Item
     {
-        public double Weight { get; private init; }
-        public double Price { get; private init; }
+        public int Weight { get; private init; }
+        public int Price { get; private init; }
 
-        public Item(double weight, double price)
+        public static Item Empty => new Item(0, 0);
+
+        public Item(int weight, int price)
         {
             Weight = weight;
             Price = price;

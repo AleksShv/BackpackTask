@@ -7,28 +7,31 @@ namespace BackpackTask
 {
     public class Backpack
     {
-        public double CapacityWeight { get; private init; }
-        public double CurrentWeight => _items.Sum(item => item.Weight);
+        public List<Item> Items { get; }
+        public int Capacity { get; private init; }
+        public int FreeSpace => Capacity - Items.Sum(item => item.Weight);
+        public int ItemsPrice => Items.Sum(item => item.Price);
 
-        private List<Item> _items;
-
-        public Backpack(double capacityWeight)
+        public Backpack(int capacity)
         {
-            CapacityWeight = capacityWeight;
-            _items = new List<Item>();
-        }
-
-        public List<Item> ViewItems()
-        {
-            return _items;
+            Capacity = capacity;
+            Items = new List<Item>();
         }
 
         public void AddItem(Item item)
         {
-            if (CurrentWeight + item.Weight > CapacityWeight)
+            if (item.Weight > FreeSpace)
                 throw new Exception("Backpack overflow");
 
-            _items.Add(item);
+            Items.Add(item);
+        }
+
+        public void AddItems(IEnumerable<Item> items)
+        {
+            if (items.Sum(item => item.Weight) > FreeSpace)
+                throw new Exception("Backpack overflow");
+
+            Items.AddRange(items);
         }
     }
 }
